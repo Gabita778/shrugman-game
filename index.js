@@ -32,10 +32,17 @@ class ShrugmanGame {
 
     // Replace letters with underscores thinking in the spaces,
     // Checking if the guessed letter is in the word,  return this.word.includes(letter);
+
+
     // Counting attempts
     // Replace underscore for letters or symbol maybe this is a IF situation or another possible solution this.guesses.push(letter);
     // occurrences of the letter are revealed when the guess is correct
     // telling that the letter was already guess this.guesses.includes(letter)
+    // how many attempts left ?
+        
+    ShrugmanGame.attemptsLeft() {
+        return this.maxAttempts - this.attempts;
+      }
 
     // Once the game is over, print a list of all games played, and whether they were a win or a loss
     // where do I place this box? this mus be an Array
