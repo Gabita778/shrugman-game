@@ -14,7 +14,7 @@ class ShrugManGame {
     // Replace letters with underscores thinking in the spaces,
     hidesStrings() {
 
-        return this.strings.replace(/[a-z]/g, '_');
+        return this.strings.replace(/[a-z]/g, '_').split('').join(' ');
     }
 
      // Check if the guessed letter is in the word
