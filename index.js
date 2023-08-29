@@ -5,9 +5,9 @@ class ShrugManGame {
     constructor(strings, maxAttempts) {
         this.strings = strings.toLowerCase(); //movie or book
         this.attempts = 0; // how many attempts has use the user
-        this.maxAttempts = maxAttempts; // all attempts user has
-        this.guesses = [] //store letters
-        this.gameOver = false; // lose or win scenario
+        this.maxAttempts = maxAttempts; 
+        this.guesses = [] 
+        this.gameOver = false; 
         this.secretWord = this.hidesStrings()
         this.length = this.long()
     }
@@ -85,7 +85,7 @@ class ShrugManGame {
     }
 } 
 
-const game = new ShrugManGame("Everything Everywhere All at Once");
+const game = new ShrugManGame("Everything Everywhere All at Once", 10);
 
 
 console.log(game);
@@ -97,12 +97,12 @@ console.log(game.isLetterHere("e"));
 
 console.log("replace letter");
 console.log(game.makeGuess("e"));
+console.log(game.makeGuess("h"));
+console.log(game.makeGuess("p"));
+console.log(game.makeGuess("e"));
 
 console.log("letter is in the []");
 console.log(game.guesses);
-
-console.log(game.long());
-;
 
 
 
