@@ -5,9 +5,10 @@ class ShrugManGame {
     constructor(strings, maxAttempts) {
         this.strings = strings.toLowerCase(); //movie or book
         this.attempts = 0; // how many attempts has use the user
-        this.maxAttempts = maxAttempts; // (end at 10) all attempts user has
+        this.maxAttempts = maxAttempts; // all attempts user has
         this.guesses = [] //store letters
         this.gameOver = false; // lose or win scenario
+        this.secretWord = this. hidesStrings()
     }
 
     // Replace letters with underscores thinking in the spaces,
@@ -24,10 +25,12 @@ class ShrugManGame {
 
     makeGuess(letter) {
 
+    //    letter = letter.toLowerCase(); // where to apply
+
         if (this.gameOver) {
             return 'The game is over.';
         } else if (this.guesses.includes(letter)) {
-            letter = letter.toLowerCase();
+           
             return 'You already guessed that letter.';
         } else {
             // I push the letter in the array of guesses if it isn't there already
@@ -37,8 +40,7 @@ class ShrugManGame {
         // I check if the letter is in the word
         if (this.isLetterHere(letter)) {
 
-            this.hidesStringsWord = this.string.split('')
-                .map((char, index) => (char === letter ? letter : this.hidesStrings[index]))
+            this.secretWord = this.secretWord.split('').map((char, index) => (char === "_" && this.strings[index] === letter ? letter : char)) 
                 .join('');
 
         } else {
@@ -58,7 +60,7 @@ class ShrugManGame {
             return 'Sorry, you lost. The word was: ' + this.strings;
         }
 
-        return `GAME OVER`;
+        return `Keep guessing`;
     }
 }
 
@@ -66,8 +68,17 @@ const game = new ShrugManGame("Everything Everywhere All at Once");
 
 
 console.log(game);
+console.log(game.hidesStrings());
+console.log(game. isLetterHere());
+console.log(game.makeGuess());
+
+
 
 // *** Important: I need a loop to check the class ShrugManGame but I don't know if it's something with functions***
+
+
+
+
 
 // Answering my own questions?
 
