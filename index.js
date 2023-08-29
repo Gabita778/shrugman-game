@@ -1,62 +1,68 @@
 const prompt = require('prompt-sync')({ sigint: true });
 
-
-
-
-
-
 // making a list of properties in my class
 class ShrugManGame {
-    constructor(word) {
-        this.word = word.toLowerCase(); //movie or book
+    constructor(strings) {
+        this.strings = strings.toLowerCase(); //movie or book
         // this two proprieties will build my shrugman? ¯\_(:/)_/¯
-        this.attempts = this.attempts ; // (start at 0) how many attempts has use the user
+        this.attempts = this.attempts; // (start at 0) how many attempts has use the user
         this.maxAttempts = maxAttempts; // (end at 10) all attempts user has
-        this.guesses = []
+        this.guesses = [] //store letters
         this.gameOver = false; // lose or win scenario
     }
 
-    isLetterHere(letter) {
-        // Check if the guessed letter is in the word
-        return this.word.includes(letter);
+    // Replace letters with underscores thinking in the spaces,
+    hidesStrings() {
+        
+        return this.strings.replace(/[a-z]/g, '_');
     }
-    
+
+     // Check if the guessed letter is in the word
+    isLetterHere(letter) {
+       
+        return this.strings.includes(letter);
+    }
+
     makeGuess(letter) {
 
         if (this.gameOver) {
-          return 'The game is over.';
+            return 'The game is over.';
         } else if (this.guesses.includes(letter)) {
             letter = letter.toLowerCase();
-          return 'You already guessed that letter.';
-        }else{
-        // I push the letter in the array of guesses if it isn't there already
+            return 'You already guessed that letter.';
+        } else {
+            // I push the letter in the array of guesses if it isn't there already
             this.guesses.push(letter);
-        }  
-    
+        }
+
         // I check if the letter is in the word
         if (this.isLetterHere(letter)) {
-          // Update the what? I need to answer here what?
-          this.what = this.what
-            
+
+
+
+            this.hidesStringsWord = this.string.split('')
+                .map((char, index) => (char === letter ? letter : this.maskedWord[index]))
+                .join('');
+
         } else {
-          // Increment the wrong attempts
-          this.attempts++;
+            // Increment the wrong attempts
+            this.attempts++;
         }
-    
+
         // The game is won
-        if (this.maskedWord === this.word) {
-          this.gameOver = true;
-          return 'Congratulations! You won!';
+        if (this.hidesStrings === this.strings) {
+            this.gameOver = true;
+            return 'Congratulations! You won!';
         }
-    
+
         // The game is lost
         if (this.attempts >= this.maxAttempts) {
-          this.gameOver = true;
-          return 'Sorry, you lost. The word was: ' + this.word;
+            this.gameOver = true;
+            return 'Sorry, you lost. The word was: ' + this.strings;
         }
-    
+
         return `GAME OVER`;
-      }
+    }
 }
 
 const game = new ShrugManGame("Everything Everywhere All at Once");
