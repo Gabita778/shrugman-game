@@ -2,10 +2,10 @@ const prompt = require('prompt-sync')({ sigint: true });
 
 // making a list of properties in my class
 class ShrugManGame {
-    constructor(strings) {
+    constructor(strings, maxAttempts) {
         this.strings = strings.toLowerCase(); //movie or book
         // this two proprieties will build my shrugman? ¯\_(:/)_/¯
-        this.attempts = this.attempts; // (start at 0) how many attempts has use the user
+        this.attempts = 10; // (start at 0) how many attempts has use the user
         this.maxAttempts = maxAttempts; // (end at 10) all attempts user has
         this.guesses = [] //store letters
         this.gameOver = false; // lose or win scenario
@@ -13,7 +13,7 @@ class ShrugManGame {
 
     // Replace letters with underscores thinking in the spaces,
     hidesStrings() {
-        
+
         return this.strings.replace(/[a-z]/g, '_');
     }
 
