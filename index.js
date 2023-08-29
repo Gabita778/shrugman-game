@@ -14,7 +14,7 @@ class ShrugManGame {
     // Replace letters with underscores thinking in the spaces,
     hidesStrings() {
 
-        return this.strings.replace(/[a-z]/g, '_').split('').join(' ');
+        return this.strings.split('').map(char => (char === ' ' ? ' ' : '_')).join(' ');
     }
 
     // Check if the guessed letter is in the word
@@ -23,46 +23,55 @@ class ShrugManGame {
         return this.strings.includes(letter);
     }
 
+    isGameOver() {
+        return this.gameOver;
+    }
+
     makeGuess(letter) {
-
         letter = letter.toLowerCase();
-
+    
         if (this.gameOver) {
             return 'The game is over.';
         } else if (this.guesses.includes(letter)) {
-
             return 'You already guessed that letter.';
         } else {
-            // I push the letter in the array of guesses if it isn't there already
+            // I push the letter into the array of guesses if it isn't there already
             this.guesses.push(letter);
         }
-
+    
         // I check if the letter is in the word
-        if (this.isLetterHere(letter)) {
 
-            this.secretWord = this.secretWord.split('').map((char, index) => (char === "_" && this.strings[index] === letter ? letter : char))
-            .join('');
+    let letterFound = false;
 
-        } else {
-            // Increment the wrong attempts
-            this.attempts++;
+   
+    for (let i = 0; i < this.strings.length; i++) {
+        if (this.secretWord[i] === '_' && this.strings[i] === letter) {
+          
+            this.secretWord = this.secretWord.substring(0, i) + letter + this.secretWord.substring(i + 1);
+            letterFound = true;
         }
+    }
 
+    // If the guessed letter was not found 
+    if (!letterFound) {
+        this.attempts++;
+    }
+    
         // The game is won
-        if (this.hidesStrings === this.strings) {
+        if (this.secretWord === this.strings) {
             this.gameOver = true;
             return 'Congratulations! You won!';
         }
-
+    
         // The game is lost
         if (this.attempts >= this.maxAttempts) {
             this.gameOver = true;
             return 'Sorry, you lost. The word was: ' + this.strings;
         }
-
-        return `Keep guessing`;
+    
+        return 'Keep guessing';
     }
-}
+} 
 
 const game = new ShrugManGame("Everything Everywhere All at Once");
 
@@ -72,8 +81,12 @@ console.log("undercover strings");
 console.log(game.hidesStrings());
 console.log("check letter");
 console.log(game.isLetterHere("e"));
+
 console.log("replace letter");
 console.log(game.makeGuess("e"));
+
+console.log("letter is in the []");
+console.log(game.guesses);
 
 
 
