@@ -38,10 +38,8 @@ class ShrugManGame {
         // I check if the letter is in the word
         if (this.isLetterHere(letter)) {
 
-
-
             this.hidesStringsWord = this.string.split('')
-                .map((char, index) => (char === letter ? letter : this.maskedWord[index]))
+                .map((char, index) => (char === letter ? letter : this.hidesStrings[index]))
                 .join('');
 
         } else {
