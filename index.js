@@ -4,6 +4,7 @@ const prompt = require('prompt-sync')({ sigint: true });
 class ShrugManGame {
     constructor(strings, maxAttempts) {
         this.name = "ShrugManGame";
+        this.instructions = "Guess the hidden word or phrase by suggesting letters. Every wrong guess brings you closer to losing."
         this.strings = strings.toLowerCase(); //movie or book
         this.attempts = 0; // how many attempts has use the user
         this.maxAttempts = maxAttempts;
@@ -96,30 +97,30 @@ class ShrugManGame {
 
 }
 
-const game = new ShrugManGame("Everything Everywhere All at Once", 10);
+const myGame = new ShrugManGame("Everything Everywhere All at Once", 10);
 
 
-console.log(game);
+console.log(myGame);
 
 console.log("undercover strings");
-console.log(game.hidesStrings());
+console.log(myGame.hidesStrings());
 
 console.log("check letter");
-console.log(game.isLetterHere("e"));
+console.log(myGame.isLetterHere("e"));
 
 console.log("replace letter");
-console.log(game.makeGuess("e"));
-console.log(game.makeGuess("h"));
-console.log(game.makeGuess("p"));
-console.log(game.makeGuess("e"));
-console.log(game.makeGuess("z"));
-console.log(game.makeGuess("t"));
-console.log(game.makeGuess("u"));
+console.log(myGame.makeGuess("e"));
+console.log(myGame.makeGuess("h"));
+console.log(myGame.makeGuess("p"));
+console.log(myGame.makeGuess("e"));
+console.log(myGame.makeGuess("z"));
+console.log(myGame.makeGuess("t"));
+console.log(myGame.makeGuess("u"));
 
 console.log("letter is in the []");
-console.log(game.guesses);
+console.log(myGame.guesses);
 
-console.log(game.attemptsLeft());
+console.log(myGame.attemptsLeft());
 
 // console.log(game.lettersRemaining());
 
@@ -132,15 +133,27 @@ console.log(game.attemptsLeft());
 console.log('======\nWhat the player will actually see\n');
 function displayGameState(game) {
     console.log(`Game: ${game.name}`)
+    console.log(`Objective: ${game.instructions}`);
     console.log(`Word: ${game.secretWord}`);
     console.log(`Guessed Letters: ${game.guesses.join(', ')}`);
     console.log(`Attempts Left: ${game.attemptsLeft()}`);
-    console.log("Shrugman: " + "¯\\_(:/)_/¯".slice(0, game.attempts));
+    console.log("ShrugMan: " + "¯\\_(:/)_/¯".slice(0, game.attempts));
 }
 
 
-displayGameState(game);
+displayGameState(myGame);
 
-// new questions?
+
 
 // how to loop the questions?
+
+// function playGame() {
+
+//     const game = myGame
+
+
+
+const question = prompt("Guess a letter: ")
+myGame.makeGuess(question)
+
+displayGameState(myGame);
