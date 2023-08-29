@@ -149,29 +149,55 @@ displayGameState(myGame);
 
 function playGame(game) {
 
-  while(true){
-    console.clear();
-    displayGameState(game);
-
-    const answer = prompt("Guess a letter: ")
-    const result = game.makeGuess(answer)
-
-      if (game.isGameOver()) {
-        console.log("game over!!!!")
+    while (true) {
         console.clear();
         displayGameState(game);
-        break;
-         
-    }
-  }  
-}   
 
-function mainLoop()
-{
+        const answer = prompt("Guess a letter: ")
+        const result = game.makeGuess(answer)
+
+        if (game.isGameOver()) {
+            console.log("game over!!!!")
+            console.clear();
+            displayGameState(game);
+            break;
+
+        }
+    }
+}
+
+function mainLoop() {
+
+    const moviesList = [
+        "The Departed",
+        "Mad Max: Fury Road",
+        "The Avengers",
+        "Inception",
+        "Interstellar",
+        "Superbad",
+        "The Grand Budapest Hotel",
+        "Bridesmaids",
+        "Get Out",
+        "Hereditary",
+        "A Quiet Place",
+        "The Babadook",
+        "Up",
+        "Inside Out",
+        "Zootopia",
+        "Coco"
+    ];
+
+
+    const getRandomMovie = () => {
+        const randomIndex = Math.floor(Math.random() * moviesList.length);
+        return moviesList[randomIndex];
+
+
+    }
+
     let play = "yes";
-    while (play === "yes")
-    {
-        let myGame = new ShrugManGame("Dune", 10);
+    while (play === "yes") {
+        let myGame = new ShrugManGame(getRandomMovie(), 10);
         playGame(myGame);
         play = prompt("Do you want to play again? ");
     }
@@ -180,3 +206,7 @@ function mainLoop()
 
 //playGame(myGame);
 mainLoop()
+
+
+  
+ 
