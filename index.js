@@ -1,12 +1,11 @@
 const prompt = require('prompt-sync')({ sigint: true });
 
-// making a list of properties in my class
 class ShrugManGame {
     constructor(strings, maxAttempts) {
         this.name = "ShrugManGame";
         this.instructions = "Guess the hidden word or phrase by suggesting letters. Every wrong guess brings you closer to losing."
-        this.strings = strings.toLowerCase(); //movie or book
-        this.attempts = 0; // how many attempts has use the user
+        this.strings = strings.toLowerCase();
+        this.attempts = 0;
         this.maxAttempts = maxAttempts;
         this.guesses = []
         this.gameOver = false;
@@ -15,20 +14,14 @@ class ShrugManGame {
     }
 
     long() {
-        return this.strings.length // i#ll like to tell how many different letters possible loop 
+        return this.strings.length
     }
 
-    // Replace letters with underscores thinking in the spaces,
     hidesStrings() {
-
         return this.strings.replace(/[a-z]/g, '_');
     }
 
-
-
-    // Check if the guessed letter is in the word
     isLetterHere(letter) {
-
         return this.strings.includes(letter);
     }
 
@@ -60,22 +53,19 @@ class ShrugManGame {
         // Update the secret word
         this.secretWord = arrSecretWord.join("");
 
-        // If the guessed letter was not found, increment attempts
         if (!letterFound) {
             this.attempts++;
         }
 
         this.guesses.push(letter);
 
-
-
-        // The game is won
+        // The game is won... not working
         if (this.secretWord === this.strings) {
             this.gameOver = true;
             return 'Congratulations! You won!';
         }
 
-        // The game is lost
+        // The game is lost... not working
         if (this.attempts >= this.maxAttempts) {
             this.gameOver = true;
             return 'Sorry, you lost. The word was: ' + this.strings;
@@ -88,13 +78,6 @@ class ShrugManGame {
         return this.maxAttempts - this.attempts;
 
     }
-
-    // lettersRemaining() {
-    //     const remainingLetters = ;
-    //     return remainingLetters;
-    // }
-    // en veremos
-
 }
 
 let myGame = new ShrugManGame("Everything Everywhere All at Once", 10);
@@ -102,33 +85,6 @@ let myGame = new ShrugManGame("Everything Everywhere All at Once", 10);
 
 console.log(myGame);
 
-console.log("undercover strings");
-console.log(myGame.hidesStrings());
-
-console.log("check letter");
-console.log(myGame.isLetterHere("e"));
-
-console.log("replace letter");
-console.log(myGame.makeGuess("e"));
-console.log(myGame.makeGuess("h"));
-console.log(myGame.makeGuess("p"));
-console.log(myGame.makeGuess("e"));
-console.log(myGame.makeGuess("z"));
-console.log(myGame.makeGuess("t"));
-console.log(myGame.makeGuess("u"));
-
-console.log("letter is in the []");
-console.log(myGame.guesses);
-
-console.log(myGame.attemptsLeft());
-
-// console.log(game.lettersRemaining());
-
-// console.log(game.long());
-
-
-
-// *** Important: I need a loop to check the class ShrugManGame but I don't know if it's something with functions***
 
 console.log('======\nWhat the player will actually see\n');
 function displayGameState(game) {
@@ -140,34 +96,38 @@ function displayGameState(game) {
     console.log("ShrugMan: " + "¯\\_(:/)_/¯".slice(0, game.attempts));
 }
 
-
 displayGameState(myGame);
 
 
+function playGame(gameClass, displayGameStateFn) {
+    let play = "yes";
 
-// how to loop the questions?
-
-function playGame(game) {
-
-    while (true) {
-        console.clear();
-        displayGameState(game);
-
-        const answer = prompt("Guess a letter: ")
-        const result = game.makeGuess(answer)
-
-        if (game.isGameOver()) {
-            console.log("game over!!!!")
+    while (play === "yes") {
+        let game = gameClass();
+        while (true) {
             console.clear();
-            displayGameState(game);
-            break;
+            displayGameStateFn(game);
 
+            const answer = prompt("Guess a letter: ");
+            const result = game.makeGuess(answer);
+
+            if (game.isGameOver()) {
+                console.log("game over!!!!");
+                console.clear();
+                displayGameStateFn(game);
+                break;
+            }
         }
+
+        play = prompt("Do you want to play again? ");
     }
+
+    console.log("Game over! Bye!");
 }
 
-function mainLoop() {
 
+
+function getRandomMovieForGame() {
     const moviesList = [
         "The Departed",
         "Mad Max: Fury Road",
@@ -187,26 +147,12 @@ function mainLoop() {
         "Coco"
     ];
 
-
     const getRandomMovie = () => {
         const randomIndex = Math.floor(Math.random() * moviesList.length);
         return moviesList[randomIndex];
+    };
 
-
-    }
-
-    let play = "yes";
-    while (play === "yes") {
-        let myGame = new ShrugManGame(getRandomMovie(), 10);
-        playGame(myGame);
-        play = prompt("Do you want to play again? ");
-    }
-    console.log("Game over! Bye!")
+    return new ShrugManGame(getRandomMovie(), 10);
 }
 
-//playGame(myGame);
-mainLoop()
-
-
-  
- 
+playGame(getRandomMovieForGame, displayGameState);
