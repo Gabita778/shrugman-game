@@ -147,13 +147,30 @@ displayGameState(myGame);
 
 // how to loop the questions?
 
-// function playGame() {
+function playGame() {
+    console.clear();
+    displayGameState(myGame);
+    let game = myGame
 
-//     const game = myGame
+    const answer = prompt("Guess a letter: ")
+    const result = myGame.makeGuess(answer)
+
+    displayGameState(myGame);
+
+    if (game.isGameOver()) {
+        console.log(result);
+        const playAgain = prompt ("Play again? (yes/no): ")
+            if (playAgain.toLowerCase() === "yes") {
+                playGame(myGame);
+            } else {
+                console.log("Game Over");
+            }
+        }else {
+        playGame();
+        
+    }
 
 
+}
 
-const question = prompt("Guess a letter: ")
-myGame.makeGuess(question)
-
-displayGameState(myGame);
+playGame(myGame);
