@@ -31,44 +31,40 @@ class ShrugManGame {
 
     makeGuess(letter) {
         letter = letter.toLowerCase();
+        let arrSecretWord = this.secretWord.split('');
+        let letterFound = false;
 
         if (this.gameOver) {
             return 'The game is over.';
         } else if (this.guesses.includes(letter)) {
             return 'You already guessed that letter.';
-
-        }
-        // array for updated secret word
-        let arrSecretWord = this.secretWord.split('');
-
-        let letterFound = false;
-
+        }else{ this.guesses.push(letter);}
+       
         for (let i = 0; i < this.strings.length; i++) {
+           
             if (this.secretWord[i] === '_' && this.strings[i] === letter) {
                 arrSecretWord[i] = letter;
                 letterFound = true;
             }
         }
 
-        // Update the secret word
-        this.secretWord = arrSecretWord.join("");
+         // Update the secret word
+         this.secretWord = arrSecretWord.join("");
+
+         // The game is won... not working
+         if (this.secretWord === this.strings) {
+            this.gameOver = true;
+           console.log('Congratulations! You won!');
+        }
 
         if (!letterFound) {
             this.attempts++;
         }
 
-        this.guesses.push(letter);
-
-        // The game is won... not working
-        if (this.secretWord === this.strings) {
-            this.gameOver = true;
-            return 'Congratulations! You won!';
-        }
-
-        // The game is lost... not working
+        // The game is lost
         if (this.attempts >= this.maxAttempts) {
             this.gameOver = true;
-            return 'Sorry, you lost. The word was: ' + this.strings;
+           console.log('Sorry, you lost. The word was: ' + this.strings);
         }
 
         return this.secretWord;
@@ -80,30 +76,32 @@ class ShrugManGame {
     }
 }
 
-let myGame = new ShrugManGame("Everything Everywhere All at Once", 10);
+//let myGame = new ShrugManGame("Everything Everywhere All at Once", 10);
 
 
-console.log(myGame);
+//console.log(myGame);
 
-
-console.log('======\nWhat the player will actually see\n');
 function displayGameState(game) {
     console.log(`Game: ${game.name}`)
     console.log(`Objective: ${game.instructions}`);
-    console.log(`Word: ${game.secretWord}`);
+    console.log(`Movie: ${game.secretWord}`);
+    console.log(`Letters in tittle: ${game.charInStrings}`)
     console.log(`Guessed Letters: ${game.guesses.join(', ')}`);
     console.log(`Attempts Left: ${game.attemptsLeft()}`);
     console.log("ShrugMan: " + "¯\\_(:/)_/¯".slice(0, game.attempts));
 }
 
-displayGameState(myGame);
+// function displayShrugMan(game) {
+//     console.log("ShrugMan: " + "¯\\_(:/)_/¯".slice(0, game.attempts));
+// }
 
+//displayGameState(myGame);
 
-function playGame(gameClass, displayGameStateFn) {
+function playGame(gameClass, displayGameStateFn, filmNameGenerator) {
     let play = "yes";
 
     while (play === "yes") {
-        let game = gameClass();
+        let game = new gameClass(filmNameGenerator(), 10);
         while (true) {
             console.clear();
             displayGameStateFn(game);
@@ -112,9 +110,7 @@ function playGame(gameClass, displayGameStateFn) {
             const result = game.makeGuess(answer);
 
             if (game.isGameOver()) {
-                console.log("game over!!!!");
-                console.clear();
-                displayGameStateFn(game);
+                // console.clear();
                 break;
             }
         }
@@ -147,12 +143,10 @@ function getRandomMovieForGame() {
         "Coco"
     ];
 
-    const getRandomMovie = () => {
+//    const getRandomMovie = () => {
         const randomIndex = Math.floor(Math.random() * moviesList.length);
         return moviesList[randomIndex];
-    };
-
-    return new ShrugManGame(getRandomMovie(), 10);
+//    };
 }
 
-playGame(getRandomMovieForGame, displayGameState);
+playGame(ShrugManGame, displayGameState, getRandomMovieForGame);
