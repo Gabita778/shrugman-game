@@ -8,7 +8,7 @@ class ShrugManGame {
         this.maxAttempts = maxAttempts; // all attempts user has
         this.guesses = [] //store letters
         this.gameOver = false; // lose or win scenario
-        this.secretWord = this. hidesStrings()
+        this.secretWord = this.hidesStrings()
     }
 
     // Replace letters with underscores thinking in the spaces,
@@ -17,20 +17,20 @@ class ShrugManGame {
         return this.strings.replace(/[a-z]/g, '_').split('').join(' ');
     }
 
-     // Check if the guessed letter is in the word
+    // Check if the guessed letter is in the word
     isLetterHere(letter) {
-       
+
         return this.strings.includes(letter);
     }
 
     makeGuess(letter) {
 
-    //    letter = letter.toLowerCase(); // where to apply
+        letter = letter.toLowerCase();
 
         if (this.gameOver) {
             return 'The game is over.';
         } else if (this.guesses.includes(letter)) {
-           
+
             return 'You already guessed that letter.';
         } else {
             // I push the letter in the array of guesses if it isn't there already
@@ -40,8 +40,8 @@ class ShrugManGame {
         // I check if the letter is in the word
         if (this.isLetterHere(letter)) {
 
-            this.secretWord = this.secretWord.split('').map((char, index) => (char === "_" && this.strings[index] === letter ? letter : char)) 
-                .join('');
+            this.secretWord = this.secretWord.split('').map((char, index) => (char === "_" && this.strings[index] === letter ? letter : char))
+            .join('');
 
         } else {
             // Increment the wrong attempts
@@ -68,9 +68,12 @@ const game = new ShrugManGame("Everything Everywhere All at Once");
 
 
 console.log(game);
+console.log("undercover strings");
 console.log(game.hidesStrings());
-console.log(game. isLetterHere());
-console.log(game.makeGuess());
+console.log("check letter");
+console.log(game.isLetterHere("e"));
+console.log("replace letter");
+console.log(game.makeGuess("e"));
 
 
 
