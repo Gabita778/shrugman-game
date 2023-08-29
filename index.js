@@ -4,8 +4,7 @@ const prompt = require('prompt-sync')({ sigint: true });
 class ShrugManGame {
     constructor(strings, maxAttempts) {
         this.strings = strings.toLowerCase(); //movie or book
-        // this two proprieties will build my shrugman? ¯\_(:/)_/¯
-        this.attempts = 10; // (start at 0) how many attempts has use the user
+        this.attempts = 0; // how many attempts has use the user
         this.maxAttempts = maxAttempts; // (end at 10) all attempts user has
         this.guesses = [] //store letters
         this.gameOver = false; // lose or win scenario
