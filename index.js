@@ -97,7 +97,7 @@ class ShrugManGame {
 
 }
 
-const myGame = new ShrugManGame("Everything Everywhere All at Once", 10);
+let myGame = new ShrugManGame("Everything Everywhere All at Once", 10);
 
 
 console.log(myGame);
@@ -147,30 +147,36 @@ displayGameState(myGame);
 
 // how to loop the questions?
 
-function playGame() {
+function playGame(game) {
+
+  while(true){
     console.clear();
-    displayGameState(myGame);
-    let game = myGame
+    displayGameState(game);
 
     const answer = prompt("Guess a letter: ")
-    const result = myGame.makeGuess(answer)
+    const result = game.makeGuess(answer)
 
-    displayGameState(myGame);
-
-    if (game.isGameOver()) {
-        console.log(result);
-        const playAgain = prompt ("Play again? (yes/no): ")
-            if (playAgain.toLowerCase() === "yes") {
-                playGame(myGame);
-            } else {
-                console.log("Game Over");
-            }
-        }else {
-        playGame();
-        
+      if (game.isGameOver()) {
+        console.log("game over!!!!")
+        console.clear();
+        displayGameState(game);
+        break;
+         
     }
+  }  
+}   
 
-
+function mainLoop()
+{
+    let play = "yes";
+    while (play === "yes")
+    {
+        let myGame = new ShrugManGame("Dune", 10);
+        playGame(myGame);
+        play = prompt("Do you want to play again? ");
+    }
+    console.log("Game over! Bye!")
 }
 
-playGame(myGame);
+//playGame(myGame);
+mainLoop()
