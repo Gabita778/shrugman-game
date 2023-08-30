@@ -1,12 +1,15 @@
+// The class that creates the game
+
 class ShrugManGame {
     constructor(myStrings, maxAttempts) {
         this.name = "ShrugManGame";
         this.instructions = "Guess the hidden word or phrase by suggesting letters. Every wrong guess brings you closer to losing."
-        this.myStrings = myStrings.toLowerCase(); //movie
+        this.myStrings = myStrings.toLowerCase(); //movie or book
         this.attempts = 0;
         this.maxAttempts = maxAttempts;
         this.guesses = []
         this.gameOver = false;
+        this.status = 
         this.secretWord = this.hidesStrings()
         this.charInStrings = this.long()
     }
@@ -30,10 +33,8 @@ class ShrugManGame {
     makeGuess(letter) {
         letter = letter.toLowerCase();
 
-        if (this.gameOver) {
-            return 'The game is over.';
-        } else if (this.guesses.includes(letter)) {
-            return 'You already guessed that letter.';
+        if (this.guesses.includes(letter)) {
+            return "repeated";
         } else {
             this.guesses.push(letter);
         }
@@ -56,16 +57,16 @@ class ShrugManGame {
             this.attempts++;
         }
 
-        // The game is won/lost...working
+        // The game is won/lost
         if (this.secretWord === this.myStrings.toLowerCase()) {
             this.gameOver = true;
-            console.log('Congratulations! You won! The word was: ' + this.myStrings); 
+            return "won";
         } else if (this.attempts === this.maxAttempts && this.secretWord !== this.myStrings.toLowerCase()) {
             this.gameOver = true;
-            console.log('Sorry, you lost. The word was: ' + this.myStrings);
+            return "lost";
         }
 
-        return this.secretWord;
+        return "ok";
     }
 
     attemptsLeft() {
@@ -73,31 +74,4 @@ class ShrugManGame {
     }
 }
 
-
-const myGame = new ShrugManGame("Bridesmaids", 5)
-
-console.log(myGame.makeGuess("d"));
-console.log(myGame.makeGuess("d"));
-console.log(myGame.makeGuess("g"));
-console.log(myGame.makeGuess("k"));
-console.log(myGame.makeGuess("m"));
-console.log(myGame.makeGuess("q"));
-console.log(myGame.makeGuess("1"));
-console.log(myGame.makeGuess("2"));
-console.log(myGame.makeGuess("1"));
-console.log(myGame.makeGuess("t"));
-console.log(myGame.makeGuess("z"));
-console.log(myGame.makeGuess("ö"));
-
-
-function displayGameState(game) {
-    console.log(`Game: ${game.name}`)
-    console.log(`Objective: ${game.instructions}`);
-    console.log(`Movie: ${game.secretWord}`);
-    console.log(`Letters in tittle: ${game.charInStrings}`)
-    console.log(`Guessed Letters: ${game.guesses.join(', ')}`);
-    console.log(`Attempts Left: ${game.attemptsLeft()}`);
-    console.log("ShrugMan: " + "¯\\_(:/)_/¯".slice(0, game.attempts + 1));
-}
-
-displayGameState(myGame)
+//console.log(myGame);

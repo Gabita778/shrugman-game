@@ -1,4 +1,6 @@
 const prompt = require('prompt-sync')({ sigint: true });
+// const ShrugManGame = require('./shrugman.js');
+
 
 // The class that creates the game
 
@@ -11,8 +13,8 @@ class ShrugManGame {
         this.maxAttempts = maxAttempts;
         this.guesses = []
         this.gameOver = false;
-        this.status = 
-        this.secretWord = this.hidesStrings()
+        this.status =
+            this.secretWord = this.hidesStrings()
         this.charInStrings = this.long()
     }
 
@@ -76,10 +78,11 @@ class ShrugManGame {
     }
 }
 
-//console.log(myGame);
+// const myGame = new ShrugManGame("dog", 3)
+// console.log(myGame);
 
 
-//the functions that creates the graphical interface
+// the functions that creates the graphical interface
 
 function displayGameState(game) {
     console.log(`Game: ${game.name}`)
@@ -103,62 +106,82 @@ function displayHappyCat() {
 
 //the functions that generate the strings to guess
 
-function getRandomMovieForGame() {
-    const moviesList = [
-        "The Departed",
-        "Mad Max: Fury Road",
-        "The Avengers",
-        "Inception",
-        "Interstellar",
-        "Superbad",
-        "The Grand Budapest Hotel",
-        "testing programs... no, it's not for me. Is there any way to do it efficiently? (insert thinking doll)",
-        "Get Out",
-        "Hereditary",
-        "A Quiet Place",
-        "The Babadook",
-        "Up",
-        "Inside Out",
-        "Zootopia",
-        "Coco"
-    ];
+function selectCategory() {
+    console.log("Choose a category:");
+    categories.forEach((category, index) => {
+        console.log(`${index + 1}. ${category.name}`);
+    });
 
-
-        const randomIndex = Math.floor(Math.random() * moviesList.length);
-        return moviesList[randomIndex];
+    const choice = parseInt(prompt("Enter the number of your chosen category:"));
+    if (choice >= 1 && choice <= categories.length) {
+        return categories[choice - 1].join();
+    } else {
+        console.log("Invalid choice. Please enter a valid number.");
+        return selectCategory();
+    }
 }
 
-function getRandomBookForGame() {
-    const bookList = [
-        "To Kill a Mockingbird",
-        "1984",
-        "Pride and Prejudice",
-        "The Great Gatsby",
-        "The Catcher in the Rye",
-        "Harry Potter and the Sorcerer's Stone",
-        "The Hobbit",
-        "The Lord of the Rings",
-        "Brave New World",
-        "The Hunger Games",
-        "The Da Vinci Code",
-        "The Alchemist",
-        "War and Peace",
-        "The Odyssey",
-        "Moby-Dick",
-        "The Shining"
-    ];
+const categories = [
+    {
+        name: "Movies",
+        words: [
+            "The Departed",
+            "Mad Max: Fury Road",
+            "The Avengers",
+            "Inception",
+            "Interstellar",
+            "Superbad",
+            "The Grand Budapest Hotel",
+            "testing programs... no, it's not for me. Is there any way to do it efficiently? (insert thinking doll)",
+            "Get Out",
+            "Hereditary",
+            "A Quiet Place",
+            "The Babadook",
+            "Up",
+            "Inside Out",
+            "Zootopia",
+            "Coco"
+        ],
+    },
+    {
+        name: "Books",
+        words: [
+            "To Kill a Mockingbird",
+            "1984",
+            "Pride and Prejudice",
+            "The Great Gatsby",
+            "The Catcher in the Rye",
+            "Harry Potter and the Sorcerer's Stone",
+            "The Hobbit",
+            "The Lord of the Rings",
+            "Brave New World",
+            "The Hunger Games",
+            "The Da Vinci Code",
+            "The Alchemist",
+            "War and Peace",
+            "The Odyssey",
+            "Moby-Dick",
+            "The Shining"
+        ],
+    },
 
-    const randomIndex = Math.floor(Math.random() * bookList.length);
-    return bookList[randomIndex];
-}
+];
+
+
+const selectedCategory = selectCategory();
+
+console.log(`Selected Category: ${selectedCategory.name}`);
 
 //the function that interacts with the user and brings together all the functions
 
 function playGame(gameClass, displayGameStateFn, nameGenerator) {
     let play = "yes";
 
+
+
     while (play === "yes") {
-        let game = new gameClass(nameGenerator(), 10);
+        let selectedTitle = nameGenerator()
+        let game = new gameClass(selectedTitle.toLowerCase(), 10);
         let result = "";
 
         do {
@@ -190,4 +213,4 @@ function playGame(gameClass, displayGameStateFn, nameGenerator) {
     console.log("Game over! Bye!");
 }
 
-playGame(ShrugManGame, displayGameState, getRandomBookForGame);
+playGame(ShrugManGame, displayGameState, selectCategory);
