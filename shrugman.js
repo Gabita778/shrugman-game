@@ -30,6 +30,14 @@ class ShrugManGame {
     makeGuess(letter) {
         letter = letter.toLowerCase();
 
+        if (this.gameOver) {
+            return 'The game is over.';
+        } else if (this.guesses.includes(letter)) {
+            return 'You already guessed that letter.';
+        } else {
+            this.guesses.push(letter);
+        }
+
         let arrSecretWord = this.secretWord.split('');
         let letterFound = false;
 
@@ -57,12 +65,6 @@ class ShrugManGame {
             console.log('Sorry, you lost. The word was: ' + this.myStrings);
         }
 
-        if (this.gameOver) {
-            return 'The game is over.';
-        } else if (this.guesses.includes(letter)) {
-            return 'You already guessed that letter.';
-        } else { this.guesses.push(letter); }
-
         return this.secretWord;
     }
 
@@ -72,10 +74,10 @@ class ShrugManGame {
 }
 
 
-const myGame = new ShrugManGame("Bridesmaids", 10)
+const myGame = new ShrugManGame("Bridesmaids", 5)
 
 console.log(myGame.makeGuess("d"));
-console.log(myGame.makeGuess("o"));
+console.log(myGame.makeGuess("d"));
 console.log(myGame.makeGuess("g"));
 console.log(myGame.makeGuess("k"));
 console.log(myGame.makeGuess("m"));
