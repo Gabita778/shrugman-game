@@ -1,5 +1,9 @@
-const prompt = require('prompt-sync')({ sigint: true });
-// const ShrugManGame = require('./shrugman.js');
+// const prompt = require('prompt-sync')({ sigint: true });
+// const chalk = require('chalk');
+import chalk from 'chalk';
+import promptSync from 'prompt-sync';
+let prompt = promptSync();
+// const ShrugManGame = require('./shrugman');
 
 
 // The class that creates the game
@@ -78,50 +82,47 @@ class ShrugManGame {
     }
 }
 
-// const myGame = new ShrugManGame("dog", 3)
-// console.log(myGame);
-
-
 // the functions that creates the graphical interface
 
 function displayGameState(game) {
-    console.log(`Game: ${game.name}`)
-    console.log(`Objective: ${game.instructions}`);
-    console.log(`Movie/Book: ${game.secretWord}`);
-    console.log(`Letters in tittle: ${game.charInStrings}, it count the spaces`)
-    console.log(`Guessed Letters: ${game.guesses.join(', ')}`);
-    console.log(`Attempts Left: ${game.attemptsLeft()}`);
-    console.log("ShrugMan: " + "¯\\_(:/)_/¯".slice(0, game.attempts));
+    console.log(chalk.blue.underline.bold(`Game: ${game.name}`))
+    console.log(chalk.cyan(`Objective: ${game.instructions}`));
+    console.log(chalk.greenBright(`Movie/Book: ${game.secretWord}`));
+    console.log(chalk.magentaBright(`Letters in tittle: ${game.charInStrings}, it count the spaces`))
+    console.log(chalk.yellowBright(`Guessed Letters: ${game.guesses.join(', ')}`))
+    console.log(chalk.green(`Attempts Left: ${game.attemptsLeft()}`));
+    console.log(chalk.redBright("ShrugMan: " + "¯\\_(:/)_/¯".slice(0, game.attempts)));
 }
 
 //displayGameState(myGame);
 
 function displayShrugMan() {
-    console.log("¯\\_(:/)_/¯");
+    console.log(chalk.blue("¯\\_(:/)_/¯"));
 }
 
 function displayHappyCat() {
-    console.log("'^‿^'");
+    console.log(chalk.cyan("'^‿^'"));
 }
 
 //the functions that generate the strings to guess
 
-function selectCategory() {
-    console.log("Choose a category:");
+function selectTitle(categories) {
+    console.log(chalk.magenta.underline.bold("Choose a category:"));
     categories.forEach((category, index) => {
         console.log(`${index + 1}. ${category.name}`);
     });
 
-    const choice = parseInt(prompt("Enter the number of your chosen category:"));
+    const choice = parseInt(prompt(chalk.bgGreenBright.bold("Enter the number of your chosen category:")));
     if (choice >= 1 && choice <= categories.length) {
-        return categories[choice - 1].join();
+        const randomIndex = Math.floor(Math.random() * categories[choice - 1].words.length);
+        return categories[choice - 1].words[randomIndex];
     } else {
         console.log("Invalid choice. Please enter a valid number.");
-        return selectCategory();
+        return selectTitle(categories);
     }
 }
 
-const categories = [
+const myList = [
     {
         name: "Movies",
         words: [
@@ -167,20 +168,13 @@ const categories = [
 
 ];
 
-
-const selectedCategory = selectCategory();
-
-console.log(`Selected Category: ${selectedCategory.name}`);
-
 //the function that interacts with the user and brings together all the functions
 
-function playGame(gameClass, displayGameStateFn, nameGenerator) {
+function playGame(gameClass, displayGameStateFn, nameGenerator, categoriesList) {
     let play = "yes";
 
-
-
     while (play === "yes") {
-        let selectedTitle = nameGenerator()
+        let selectedTitle = nameGenerator(categoriesList)
         let game = new gameClass(selectedTitle.toLowerCase(), 10);
         let result = "";
 
@@ -189,28 +183,28 @@ function playGame(gameClass, displayGameStateFn, nameGenerator) {
 
             if ("won" === result) {
                 displayHappyCat();
-                console.log('Congratulations! You won! The word was: ' + game.myStrings);
+                console.log(chalk.magenta.italic('Congratulations! You won! The word was: ' + game.myStrings));
                 break;
             } else if ("lost" === result) {
                 displayShrugMan();
-                console.log('Sorry, you lost. The word was: ' + game.myStrings);
+                console.log(chalk.red.bold('Sorry, you lost. The word was: ' + game.myStrings));
                 break;
             } else if ("repeated" === result) {
-                console.log('You already guessed that letter.');
+                console.log(chalk.bgCyanBright.italic('You already guessed that letter.'));
             }
 
             displayGameStateFn(game);
 
-            const answer = prompt("Guess a letter: ");
+            const answer = prompt(chalk.bgRedBright("Guess a letter: "));
             result = game.makeGuess(answer);
 
 
         } while (true);
 
-        play = prompt("Do you want to play again? ");
+        play = prompt(chalk.cyan("Do you want to play again? "));
     }
 
-    console.log("Game over! Bye!");
+    console.log(chalk.greenBright(chalk.yellowBright.bold("Game over! Bye!")));
 }
 
-playGame(ShrugManGame, displayGameState, selectCategory);
+playGame(ShrugManGame, displayGameState, selectTitle, myList);
