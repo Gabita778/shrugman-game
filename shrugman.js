@@ -1,5 +1,3 @@
-const prompt = require('prompt-sync')({ sigint: true });
-
 class ShrugManGame {
     constructor(myStrings, maxAttempts) {
         this.name = "ShrugManGame";
@@ -69,14 +67,26 @@ class ShrugManGame {
     }
 
     attemptsLeft() {
-                return this.maxAttempts - this.attempts;
-            }
+        return this.maxAttempts - this.attempts;
+    }
 }
 
-//let myGame = new ShrugManGame("Everything Everywhere All at Once", 10);
 
+const myGame = new ShrugManGame("Bridesmaids", 10)
 
-//console.log(myGame);
+console.log(myGame.makeGuess("d"));
+console.log(myGame.makeGuess("o"));
+console.log(myGame.makeGuess("g"));
+console.log(myGame.makeGuess("k"));
+console.log(myGame.makeGuess("m"));
+console.log(myGame.makeGuess("q"));
+console.log(myGame.makeGuess("1"));
+console.log(myGame.makeGuess("2"));
+console.log(myGame.makeGuess("1"));
+console.log(myGame.makeGuess("t"));
+console.log(myGame.makeGuess("z"));
+console.log(myGame.makeGuess("ö"));
+
 
 function displayGameState(game) {
     console.log(`Game: ${game.name}`)
@@ -85,66 +95,7 @@ function displayGameState(game) {
     console.log(`Letters in tittle: ${game.charInStrings}`)
     console.log(`Guessed Letters: ${game.guesses.join(', ')}`);
     console.log(`Attempts Left: ${game.attemptsLeft()}`);
-    console.log("ShrugMan: " + "¯\_(:/)_/¯".slice(0, game.attempts + 1));
-}
-
-function displayShrugMan(game) {
     console.log("ShrugMan: " + "¯\\_(:/)_/¯".slice(0, game.attempts + 1));
 }
 
-//displayGameState(myGame);
-
-function playGame(gameClass, displayGameStateFn, filmNameGenerator) {
-    let play = "yes";
-
-    while (play === "yes") {
-        let game = new gameClass(filmNameGenerator(), 10);
-        while (true) {
-            console.clear();
-            displayGameStateFn(game);
-
-            const answer = prompt("Guess a letter: ");
-            const result = game.makeGuess(answer);
-
-            if (game.isGameOver()) {
-                // console.clear();
-                displayShrugMan(game)
-                break;
-            }
-        }
-
-        play = prompt("Do you want to play again? ");
-    }
-
-    console.log("Game over! Bye!");
-}
-
-
-
-function getRandomMovieForGame() {
-    const moviesList = [
-        "The Departed",
-        "Mad Max: Fury Road",
-        "The Avengers",
-        "Inception",
-        "Interstellar",
-        "Superbad",
-        "The Grand Budapest Hotel",
-        "Bridesmaids",
-        "Get Out",
-        "Hereditary",
-        "A Quiet Place",
-        "The Babadook",
-        "Up",
-        "Inside Out",
-        "Zootopia",
-        "Coco"
-    ];
-
-//    const getRandomMovie = () => {
-        const randomIndex = Math.floor(Math.random() * moviesList.length);
-        return moviesList[randomIndex];
-//    };
-}
-
-playGame(ShrugManGame, displayGameState, getRandomMovieForGame);
+displayGameState(myGame)
