@@ -79,3 +79,4 @@ class ShrugManGame {
 // const myGame = new ShrugManGame("hello", 3)
 //console.log(myGame);
 export default ShrugManGame
+

@@ -150,3 +150,29 @@ displayGameState(myGame)
 //     const randomIndex = Math.floor(Math.random() * bookList.length);
 //     return bookList[randomIndex];
 // }
+
+// to add example
+
+const myList = [
+    {
+        name: "Songs",
+        words: [
+            "Bohemian Rhapsody",
+            "Hotel California",
+            "Imagine",
+            "Billie Jean",
+            "Like a Rolling Stone",
+            "Thriller",
+            "Wonderwall",
+            "Smells Like Teen Spirit",
+            "Yesterday",
+            "Sweet Child o' Mine",
+            "Don't Stop Believin'",
+            "Stairway to Heaven",
+            "Bohemian Rhapsody",
+            "Yesterday",
+            "Rolling in the Deep",
+            "Purple Haze"
+        ],
+    },
+];
