@@ -1,3 +1,4 @@
+import ShrugManGame from './shrugman.js'
 // const prompt = require('prompt-sync')({ sigint: true });
 // const chalk = require('chalk');
 import chalk from 'chalk';
@@ -6,81 +7,82 @@ let prompt = promptSync();
 // const ShrugManGame = require('./shrugman');
 
 
-// The class that creates the game
+// The class that creates the game is in the file shrugman.js
+// class ShrugManGame {
+//     constructor(myStrings, maxAttempts) {
+//         this.name = "ShrugManGame";
+//         this.instructions = "Guess the hidden word or phrase by suggesting letters. Every wrong guess brings you closer to losing."
+//         this.myStrings = myStrings.toLowerCase(); //movie or book
+//         this.attempts = 0;
+//         this.maxAttempts = maxAttempts;
+//         this.guesses = []
+//         this.gameOver = false;
+//         this.secretWord = this.hidesStrings();
+//         this.charInStrings = this.long();
+//         this.result = ''; 
+//     }
 
-class ShrugManGame {
-    constructor(myStrings, maxAttempts) {
-        this.name = "ShrugManGame";
-        this.instructions = "Guess the hidden word or phrase by suggesting letters. Every wrong guess brings you closer to losing."
-        this.myStrings = myStrings.toLowerCase(); //movie or book
-        this.attempts = 0;
-        this.maxAttempts = maxAttempts;
-        this.guesses = []
-        this.gameOver = false;
-        this.status =
-            this.secretWord = this.hidesStrings()
-        this.charInStrings = this.long()
-    }
+//     long() {
+//         return this.myStrings.length
+//     }
 
-    long() {
-        return this.myStrings.length
-    }
+//     hidesStrings() {
+//         return this.myStrings.replace(/[a-z]/g, '_');
+//     }
 
-    hidesStrings() {
-        return this.myStrings.replace(/[a-z]/g, '_');
-    }
+//     isLetterHere(letter) {
+//         return this.myStrings.includes(letter);
+//     }
 
-    isLetterHere(letter) {
-        return this.myStrings.includes(letter);
-    }
+//     isGameOver() {
+//         return this.gameOver;
+//     }
 
-    isGameOver() {
-        return this.gameOver;
-    }
+//     makeGuess(letter) {
+//         letter = letter.toLowerCase();
 
-    makeGuess(letter) {
-        letter = letter.toLowerCase();
+//         if (this.guesses.includes(letter)) {
+//             return "repeated";
+//         } else {
+//             this.guesses.push(letter);
+//         }
 
-        if (this.guesses.includes(letter)) {
-            return "repeated";
-        } else {
-            this.guesses.push(letter);
-        }
+//         let arrSecretWord = this.secretWord.split('');
+//         let letterFound = false;
 
-        let arrSecretWord = this.secretWord.split('');
-        let letterFound = false;
+//         for (let i = 0; i < this.myStrings.length; i++) {
 
-        for (let i = 0; i < this.myStrings.length; i++) {
+//             if (this.secretWord[i] === '_' && this.myStrings[i] === letter) {
+//                 arrSecretWord[i] = letter;
+//                 letterFound = true;
+//             }
+//         }
 
-            if (this.secretWord[i] === '_' && this.myStrings[i] === letter) {
-                arrSecretWord[i] = letter;
-                letterFound = true;
-            }
-        }
+//         // Update the secret word
+//         this.secretWord = arrSecretWord.join("");
 
-        // Update the secret word
-        this.secretWord = arrSecretWord.join("");
+//         if (!letterFound) {
+//             this.attempts++;
+//         }
 
-        if (!letterFound) {
-            this.attempts++;
-        }
+//         // The game is won/lost
+//         if (this.secretWord === this.myStrings.toLowerCase()) {
+//             this.gameOver = true;
+//             this.result = "won";
+//             return "won";
+//         } else if (this.attempts === this.maxAttempts && this.secretWord !== this.myStrings.toLowerCase()) {
+//             this.gameOver = true;
+//             this.result = "lost";
+//             return "lost";
+//         }
 
-        // The game is won/lost
-        if (this.secretWord === this.myStrings.toLowerCase()) {
-            this.gameOver = true;
-            return "won";
-        } else if (this.attempts === this.maxAttempts && this.secretWord !== this.myStrings.toLowerCase()) {
-            this.gameOver = true;
-            return "lost";
-        }
+//         return "ok";
+//     }
 
-        return "ok";
-    }
-
-    attemptsLeft() {
-        return this.maxAttempts - this.attempts;
-    }
-}
+//     attemptsLeft() {
+//         return this.maxAttempts - this.attempts;
+//     }
+// }
 
 // the functions that creates the graphical interface
 
@@ -92,6 +94,15 @@ function displayGameState(game) {
     console.log(chalk.yellowBright(`Guessed Letters: ${game.guesses.join(', ')}`))
     console.log(chalk.green(`Attempts Left: ${game.attemptsLeft()}`));
     console.log(chalk.redBright("ShrugMan: " + "¯\\_(:/)_/¯".slice(0, game.attempts)));
+    
+    if (game.isGameOver()) {
+        displayResult(game)
+    }
+}
+
+const gameResults = [];
+function displayResult(game) {
+    console.log(chalk.greenBright( gameResults.push(`${game.myStrings} - ${game.result}`)));
 }
 
 //displayGameState(myGame);
@@ -133,7 +144,6 @@ const myList = [
             "Interstellar",
             "Superbad",
             "The Grand Budapest Hotel",
-            "testing programs... no, it's not for me. Is there any way to do it efficiently? (insert thinking doll)",
             "Get Out",
             "Hereditary",
             "A Quiet Place",
@@ -201,10 +211,16 @@ function playGame(gameClass, displayGameStateFn, nameGenerator, categoriesList) 
 
         } while (true);
 
+        displayResult(game);
+
         play = prompt(chalk.cyan("Do you want to play again? "));
     }
-
+   
     console.log(chalk.greenBright(chalk.yellowBright.bold("Game over! Bye!")));
+    console.log(chalk.yellowBright.bold("Game Results:"));
+    gameResults.forEach((gameResult) => {
+        console.log(gameResult);
+    })
 }
 
 playGame(ShrugManGame, displayGameState, selectTitle, myList);

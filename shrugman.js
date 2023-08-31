@@ -4,14 +4,14 @@ class ShrugManGame {
         constructor(myStrings, maxAttempts) {
             this.name = "ShrugManGame";
             this.instructions = "Guess the hidden word or phrase by suggesting letters. Every wrong guess brings you closer to losing."
-            this.myStrings = myStrings.toLowerCase; //movie or book
+            this.myStrings = myStrings.toLowerCase(); //movie or book
             this.attempts = 0;
             this.maxAttempts = maxAttempts;
             this.guesses = []
             this.gameOver = false;
-            this.status =
-                this.secretWord = this.hidesStrings()
-            this.charInStrings = this.long()
+            this.secretWord = this.hidesStrings();
+            this.charInStrings = this.long();
+            this.result = ''; 
         }
     
         long() {
@@ -60,9 +60,11 @@ class ShrugManGame {
             // The game is won/lost
             if (this.secretWord === this.myStrings.toLowerCase()) {
                 this.gameOver = true;
+                this.result = "won";
                 return "won";
             } else if (this.attempts === this.maxAttempts && this.secretWord !== this.myStrings.toLowerCase()) {
                 this.gameOver = true;
+                this.result = "lost";
                 return "lost";
             }
     
@@ -74,5 +76,6 @@ class ShrugManGame {
         }
 }
     
-const myGame = new ShrugManGame()
+// const myGame = new ShrugManGame("hello", 3)
 //console.log(myGame);
+export default ShrugManGame
